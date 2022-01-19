@@ -4,14 +4,14 @@ import { updateWinnings } from './winnings.js';
 const app = express();
 
 const port = process.env.HTTP_PORT || 80;
-app.get('/', async (req, res) => {
+app.get('/api', async (req, res) => {
     //const winnings = await updateWinnings();
     const winnings = await updateWinnings();
     //console.log(winnings);
     // console.log(jsonData.length);    
 
     const range = Array.from({length: 46}, (_, i) => i+1);
-    for (let k = 0; k < 100000; k++) {
+    // for (let k = 0; k < 100000; k++) {
         range.sort(() => Math.random() - 0.5);
 
         //console.log(typeof range[0]);
@@ -30,13 +30,14 @@ app.get('/', async (req, res) => {
                 break;
             }
         }
-    }
+    // }
     
-
-    res.json("OK");
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+    res.json({result});
 });
 
-app.get('/duplicate', async (req, res) => {
+app.get('/api/duplicate', async (req, res) => {
     const winnings = await updateWinnings();
     //console.log(winnings);
     // console.log(jsonData.length);    
@@ -50,7 +51,20 @@ app.get('/duplicate', async (req, res) => {
     }
 })
 
-app.listen(port, () => {
-    console.log(`app listening at ${port}`);
-});
+import url from 'url'
 
+if (import.meta.url === url.pathToFileURL(process.argv[1]).href)    {
+    app.listen(port, () => {
+        console.log(`app listening at ${port}`);
+    });
+} 
+
+export {app};
+
+
+
+
+
+
+// console.log(import.meta.url);
+// console.log(url.pathToFileURL(process.argv[1]).href);

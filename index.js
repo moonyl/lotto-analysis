@@ -3,7 +3,8 @@ import { updateWinnings } from './winnings.js';
 
 const app = express();
 
-const port = process.env.HTTP_PORT || 80;
+const port = process.env.PORT || 8080;
+app.use(express.json({extended: false}));
 app.get('/api', async (req, res) => {
     //const winnings = await updateWinnings();
     const winnings = await updateWinnings();
@@ -51,15 +52,19 @@ app.get('/api/duplicate', async (req, res) => {
     }
 })
 
-import url from 'url'
+app.listen(port, () => {
+    console.log(`app listening at ${port}`);
+});
 
-if (import.meta.url === url.pathToFileURL(process.argv[1]).href)    {
-    app.listen(port, () => {
-        console.log(`app listening at ${port}`);
-    });
-} 
+// import url from 'url'
 
-export {app};
+// if (import.meta.url === url.pathToFileURL(process.argv[1]).href)    {
+//     app.listen(port, () => {
+//         console.log(`app listening at ${port}`);
+//     });
+// } 
+
+// export {app};
 
 
 

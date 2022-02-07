@@ -11,7 +11,7 @@ app.get('/api', async (req, res) => {
     //console.log(winnings);
     // console.log(jsonData.length);    
 
-    const range = Array.from({length: 46}, (_, i) => i+1);
+    const range = Array.from({length: 45}, (_, i) => i+1);
     // for (let k = 0; k < 100000; k++) {
         range.sort(() => Math.random() - 0.5);
 

@@ -22,7 +22,10 @@ app.get('/api', async (req, res) => {
         const compareNumber = (a, b) => {
             return a-b;
         }
+        
         const result = chosen.sort(compareNumber);
+        result = result.sort(compareNumber);
+        result = result.sort(compareNumber);
         // console.log(result);
         
         for (let i = 0; i < winnings.length; i++)   {

@@ -13,15 +13,7 @@ app.get("/api", async (req, res) => {
 
   const range = Array.from({ length: 45 }, (_, i) => i + 1);
   // for (let k = 0; k < 100000; k++) {
-  range.sort(() => Math.random() - 0.5);
-
-  //console.log(typeof range[0]);
-  const chosen = range.slice(0, 6);
-  //console.log(typeof chosen[0]);
-  //console.log(chosen);
-  const compareNumber = (a, b) => {
-    return a - b;
-  };
+  //   range.sort(() => Math.random() - 0.5);
 
   const shuffle = (numbers, countdown) => {
     countdown--;
@@ -29,14 +21,40 @@ app.get("/api", async (req, res) => {
     if (countdown <= 0) {
       return numbers;
     }
-    numbers.sort(compareNumber);
+    numbers.sort(() => Math.random() - 0.5);
     return shuffle(numbers, countdown);
   };
-  const result = shuffle(chosen, range.length);
+  const shuffled = shuffle(range, range.length);
   //   let result = chosen.sort(compareNumber);
   //   result = result.sort(compareNumber);
   //   result = result.sort(compareNumber);
   //   console.log(result);
+
+  //console.log(typeof range[0]);
+  function getRandomInt(min, max) {
+    min = Math.floor(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //최댓값은 제외, 최솟값은 포함
+  }
+  const startIdx = getRandomInt(0, 45);
+  //   console.log(startIdx);
+  let chosen;
+  if (startIdx < 40) {
+    chosen = shuffled.slice(startIdx, startIdx + 6);
+  } else {
+    const chosen1 = shuffled.slice(startIdx, 45);
+    const chosen2 = shuffled.slice(0, 6 - (45 - startIdx));
+    chosen = chosen1.concat(chosen2);
+  }
+
+  //console.log(typeof chosen[0]);
+  //console.log(chosen);
+  const compareNumber = (a, b) => {
+    return a - b;
+  };
+  const result = chosen.sort(compareNumber);
+  //   console.log(typeof chosen[0]);
+  //   console.log(chosen);
 
   for (let i = 0; i < winnings.length; i++) {
     if (JSON.stringify(result) === JSON.stringify(winnings[i])) {
